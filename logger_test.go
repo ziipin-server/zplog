@@ -3,6 +3,7 @@ package zplog
 import (
 	"os"
 	"testing"
+	"fmt"
 )
 
 func TestSimpleLog(t *testing.T) {
@@ -36,4 +37,22 @@ func TestNewLogger(t *testing.T) {
 	logger.Warn("x 3")
 	logger.Error("x 4")
 	logger.Fatal("x 5")
+}
+
+type Room struct {
+	Id int
+}
+
+func (r *Room)Work()  {
+	r.LogError("something wrong here")
+}
+
+func (r *Room)LogError(format string,args... interface{})  {
+	LogErrorUpper(1,fmt.Sprintf("room: %d %s",r.Id,fmt.Sprintf(format,args...)))
+}
+
+func TestLogUpper(t *testing.T)  {
+	room := new(Room)
+	room.Id = 10000
+	room.Work()
 }
